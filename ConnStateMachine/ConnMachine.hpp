@@ -45,7 +45,6 @@ BOOST_MSM_EUML_ACTION(doConnect)
   {
     std::string tar_ip=evt.get_attribute(ip);
 
-	ip = tar_ip;
     
     cout<<"doConnect to target:"<<tar_ip<<endl;
   }
@@ -59,7 +58,7 @@ BOOST_MSM_EUML_ACTION(doDisconnect)
   {
 	  std::string tarip;
 	  tarip=fsm.get_attribute(ip);
-    cout<<"Disconnect from target"<<tarip<<endl;
+	  cout<<"Disconnect from target"<<tarip<<endl;
   }
 };
 
