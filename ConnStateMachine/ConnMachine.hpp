@@ -31,6 +31,7 @@ BOOST_MSM_EUML_STATE((), Connected)
  */
 BOOST_MSM_EUML_EVENT(Disconnect)
 BOOST_MSM_EUML_DECLARE_ATTRIBUTE(std::string, ip);
+BOOST_MSM_EUML_DECLARE_ATTRIBUTE(std::string, connMachineip);
 BOOST_MSM_EUML_ATTRIBUTES((attributes_<<ip), targetIP_attributes)
 BOOST_MSM_EUML_EVENT_WITH_ATTRIBUTES(Connect, targetIP_attributes)
 
@@ -44,6 +45,7 @@ BOOST_MSM_EUML_ACTION(doConnect)
   void operator()(EVT const& evt,FSM & fsm,SourceState &,TargetState&)
   {
     std::string tar_ip=evt.get_attribute(ip);
+    fsm.get_attribute(connMachineip)=tar_ip;
 
     
     cout<<"doConnect to target:"<<tar_ip<<endl;
@@ -57,8 +59,8 @@ BOOST_MSM_EUML_ACTION(doDisconnect)
   void operator()(EVT const& evt,FSM & fsm,SourceState &,TargetState&)
   {
 	  std::string tarip;
-	  tarip=fsm.get_attribute(ip);
-	  cout<<"Disconnect from target"<<tarip<<endl;
+	  tarip=fsm.get_attribute(connMachineip);
+	  cout<<"Disconnect from target:"<<tarip<<endl;
   }
 };
 
@@ -87,7 +89,7 @@ BOOST_MSM_EUML_DECLARE_STATE_MACHINE((
                                       init_<<WaitForConnect,
                                       no_action, // Entry
                                       no_action, // Exit
-                                  attributes_ << ip, // Attributes
+                                  attributes_ << connMachineip, // Attributes
                                       configure_ << no_configure_, // configuration
                                       Log_No_Transition // no_transition handler
                                       ), ConnMachine_);
